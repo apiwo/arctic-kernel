@@ -127,6 +127,15 @@ patches-*
 patches
 series
 
+# Arctic: we intentionally keep our own patches/ and config flavors tracked,
+# unlike upstream's local quilt/stgit staging convention above.
+!/patches/
+!/patches/**
+!/*-config
+!/*-config/**
+!/container/
+!/container/**
+
 # ctags files
 tags
 TAGS
