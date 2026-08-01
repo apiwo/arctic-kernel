@@ -4736,7 +4736,7 @@ static void sched_update_worker(struct task_struct *tsk)
 {
 	if (tsk->flags & (PF_WQ_WORKER | PF_IO_WORKER | PF_BLOCK_TS)) {
 		if (tsk->flags & PF_BLOCK_TS)
-			blk_plug_invalidate_ts(tsk);
+			blk_plug_invalidate_ts();
 		if (tsk->flags & PF_WQ_WORKER)
 			wq_worker_running(tsk);
 		else if (tsk->flags & PF_IO_WORKER)

@@ -365,9 +365,15 @@ static inline void arch_flush_tlb_batched_pending(struct mm_struct *mm)
 }
 
 extern void arch_tlbbatch_flush(struct arch_tlbflush_unmap_batch *batch);
-extern void arch_tlbbatch_add_pending(struct arch_tlbflush_unmap_batch *batch,
+
+static inline void arch_tlbbatch_add_pending(struct arch_tlbflush_unmap_batch *batch,
 					     struct mm_struct *mm,
-					     unsigned long uaddr);
+					     unsigned long uaddr)
+{
+	inc_mm_tlb_gen(mm);
+	cpumask_or(&batch->cpumask, &batch->cpumask, mm_cpumask(mm));
+	mmu_notifier_arch_invalidate_secondary_tlbs(mm, 0, -1UL);
+}
 
 static inline bool pte_flags_need_flush(unsigned long oldflags,
 					unsigned long newflags,
